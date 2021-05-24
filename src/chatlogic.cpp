@@ -160,17 +160,17 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             auto childNode = std::find_if(_nodes.begin(), _nodes.end(), [&childToken](std::unique_ptr<GraphNode> &node) { return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
-                            GraphEdge *edge = new GraphEdge(id);
+                            std::unique_ptr<GraphEdge> edge(new GraphEdge(id)); //allocated memory on heap
                             edge->SetChildNode((*childNode).get()); //dereference iterator, pass pointer to function
                             edge->SetParentNode((*parentNode).get()); //dereference iterator, pass pointer to function
-                            _edges.push_back(edge);
+                            // _edges.push_back(edge); //no longer required as edge memory will be handled in node class. 
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
 
                             // store reference in child node and parent node
-                            (*childNode)->AddEdgeToParentNode(edge);
-                            (*parentNode)->AddEdgeToChildNode(edge);
+                            (*childNode)->AddEdgeToParentNode(edge.get()); //parent edges are non-owned , so move the raw pointer
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge)); //edge to be owned by this node so move scope of edge.
                         }
 
                         ////
