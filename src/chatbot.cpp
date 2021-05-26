@@ -45,7 +45,7 @@ ChatBot::~ChatBot()
 //// STUDENT CODE
 ////
 ChatBot::ChatBot(const ChatBot &source){
-    //copy pointers from source (shallow copy)
+    //copy pointers from source 
     std::cout << "ChatBot Copy Constructor" << std::endl;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
@@ -53,7 +53,7 @@ ChatBot::ChatBot(const ChatBot &source){
     _image = source._image;
 }
 ChatBot &ChatBot::operator=(const ChatBot &source){
-    //copy pointers from source (shallow copy)
+    //copy pointers from source 
     std::cout << "ChatBot Copy Assignment Operator" << std::endl;
     if(this == &source){
         return *this;
@@ -69,7 +69,7 @@ ChatBot::ChatBot(ChatBot &&source){
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
+    _chatLogic->SetChatbotHandle(this); //inform chatlogic of mem address of new chatbot
     _image = source._image;
     source._currentNode = nullptr;
     source._chatLogic = nullptr;
@@ -84,7 +84,7 @@ ChatBot &ChatBot::operator=(ChatBot &&source){
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this); //remap the r-value address into handle stored in chat logic
+    _chatLogic->SetChatbotHandle(this); //inform chatlogic of mem address of new chatbot
     _image = source._image;
     source._currentNode = nullptr;
     source._chatLogic = nullptr;
