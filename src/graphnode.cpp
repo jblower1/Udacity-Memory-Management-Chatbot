@@ -34,16 +34,17 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> &&edge)
 
 //// STUDENT CODE
 ////
-void GraphNode::MoveChatbotHere(ChatBot *chatbot)
+void GraphNode::MoveChatbotHere(ChatBot chatbot)
 {
-    _chatBot = chatbot;
-    _chatBot->SetCurrentNode(this);
+    // _chatBot = &chatbot; //invoke the move assignment operator as chatbot is an r-value?
+    _chatBot = std::move(chatbot);
+    _chatBot.SetCurrentNode(this);
 }
 
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    newNode->MoveChatbotHere(std::move(_chatBot));
+    // _chatBot = nullptr; // invalidate pointer at source - this invalidation is done by move methods in chatbot?
 }
 ////
 //// EOF STUDENT CODE

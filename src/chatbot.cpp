@@ -69,6 +69,7 @@ ChatBot::ChatBot(ChatBot &&source){
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _image = source._image;
     source._currentNode = nullptr;
     source._chatLogic = nullptr;
@@ -83,6 +84,7 @@ ChatBot &ChatBot::operator=(ChatBot &&source){
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this); //remap the r-value address into handle stored in chat logic
     _image = source._image;
     source._currentNode = nullptr;
     source._chatLogic = nullptr;
